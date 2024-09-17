@@ -1,8 +1,21 @@
-const express = require('express'); // Usa el código de express que permite las funcionalidades de un servidor web
-const app = express(); // Crea una nueva aplicación Express con las funcionalidades del servidor web
+const express = require('express');
+const app = express();
 
-app.use(express.static('public')); // Sirve archivos desde la carpeta 'public' permitiendo la funcionalidad de un servidor web
+// Sirve archivos estáticos desde la carpeta 'public'
+app.use(express.static('public'));
 
-app.listen(3000, () => { // Inicia el servidor en el puerto 3000
-  console.log(`Servidor funcionando en http://localhost:3000`); // Muestra mensaje en consola
+// Ruta principal
+app.get("/", (req, res) => {
+  res.send("Express en Vercel");
 });
+
+// Exporta la aplicación para el entorno sin servidor
+if (require.main === module) {
+  // Solo escucha en el puerto 3000 si es el archivo principal ejecutado localmente
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => {
+    console.log(`Servidor funcionando en http://localhost:${PORT}`);
+  });
+}
+
+module.exports = app;
