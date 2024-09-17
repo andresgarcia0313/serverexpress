@@ -13,4 +13,4 @@ if (require.main === module) {// Si no esta en vercel ejecuta esto:
   });
 }
 
-module.exports = app;
+module.exports = app;// se agrega esto para que vercel pueda ejecutar el servidor
