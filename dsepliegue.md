@@ -1,6 +1,6 @@
 # Guía de Despliegue con Vercel
 
-Esta guía explica cómo desplegar tu proyecto usando Vercel, una plataforma de despliegue para aplicaciones y sitios web. A continuación, se detallan los comandos y configuraciones necesarias para llevar a cabo el despliegue.
+Esta guía explica cómo desplegar tu proyecto usando Vercel, una plataforma de despliegue para aplicaciones y sitios web. A continuación, se detallan los comandos y configuraciones necesarias para llevar a cabo el despliegue. 
 
 ## Instalación de Vercel CLI
 
@@ -50,7 +50,7 @@ Cuando estés listo para hacer que tu proyecto esté disponible públicamente, e
 vercel --prod
 ```
 
-Este comando despliega tu proyecto directamente en producción, haciéndolo accesible para todos los usuarios finales.
+Este comando despliega tu proyecto directamente en producción, haciéndolo accesible para todos los usuarios finales y te da en consola la ruta donde se desplego
 
 ## Configuración del Repositorio
 
