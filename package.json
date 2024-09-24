@@ -5,6 +5,7 @@
   "scripts": {
     "start": "node app.js",
     "devlocal": "node app.js",
+    "devnodemon": "nodemon app.js",
     "dev": "vercel dev",
     "previsualizacion": "vercel",
     "deploy": "vercel --prod",
@@ -17,6 +18,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.21.0",
+    "mongodb": "^6.9.0",
     "nodemon": "^3.1.7"
   }
 }

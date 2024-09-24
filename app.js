@@ -1,33 +1,42 @@
 const express = require("express"); // Importa el módulo 'express'
 const path = require("path"); // Importa el módulo 'path' para manejar rutas
 const app = express(); // Crea una instancia de Express
+const connectDB = require("./database"); // Importa la función de conexión a MongoDB
 const appPathWeb = "/app"; // Ruta base para la aplicación web a futuro se debe cambiar a api y app para la web
-// Configura la carpeta 'public' para servir archivos estáticos
-app.use(express.static(path.join(__dirname, "public")));
-app.use(appPathWeb, express.static(path.join(__dirname, "app")));
-//body parser
-app.use(express.json());
+app.use(express.static(path.join(__dirname, "public"))); // Configura la carpeta 'public' para servir archivos estáticos
+app.use(appPathWeb, express.static(path.join(__dirname, "app"))); // Configura la carpeta 'app' para servir archivos estáticos en la ruta /app
+app.use(express.json()); // Habilita el uso de JSON que es lo que recibe el servidor desde el formulario
+
+let db; // Variable para almacenar la conexión de la base de datos
+const initDB = async () => {
+  // Función para inicializar la conexión a la base de datos
+  db = await connectDB(); // Establece y conecta a la base de datos
+};
+initDB(); // Inicializa la conexión a la base de datos
 
 //Agregar contacto
-app.post(appPathWeb + "/:email", (req, res) => {
+app.post(appPathWeb + "/:email", async (req, res) => {
   try {
-    const { email } = req.params; // Obtener los nombres del parámetro de la URL
-    const { names, surnames, group } = req.body; // Obtener los datos del cuerpo de la solicitud
-    data = {
-      email: email,
-      names: names,
-      surnames: surnames,
-      group: group,
-    };
-    console.log(data);
-    // Respuesta exitosa
-    res.status(200).json({
-      mensaje: `Contacto de ${email} ${surnames} agregado exitosamente con el correo ${email} y grupo ${group}.`,
-    });
+    const user = await db
+      .collection("contactos")
+      .findOne({ email: req.params.email }); //Busca si el usuario ya existe
+
+    if (user) {
+      //Si el contacto ya existe haga lo siguiente
+      res.status(400).json({ mensaje: "El contacto ya existe" });
+    } else {
+      //Si no existe el contacto haga lo siguiente:
+      await db.collection("contactos").insertOne({
+        email: req.params.email,
+        names: req.body.names,
+        surnames: req.body.surnames,
+        group: req.body.group,
+      });
+      res.status(200).json({ mensaje: `Contacto Agregado` }); //Mensaje de confirmación
+    }
   } catch (error) {
-    res.status(400).json({
-      mensaje: "Error al agregar:" + error,
-    });
+    //Mensaje de error en caso de que no se pueda agregar el contacto
+    res.status(400).json({ mensaje: "Defecto al agregar contacto:" + error }); //Mensaje de error en caso de que no se pueda agregar el contacto
   }
 });
 
