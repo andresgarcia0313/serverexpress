@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<!--Esta etiqueta indica que el documento es un documento HTML5 -->
+<html lang="es">
+  <!-- La etiqueta <html> define la estructura principal y el contenido y el idioma de la página web -->
+
+  <head>
+    <meta charset="UTF-8" />
+    <!-- Codificación de caracteres lo que permite mostrar caracteres especiales como la ñ o las tildes-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Escala el contenido para que se ajuste a la pantalla -->
+    <title>Formulario de Contactos</title>
+    <!-- Título de la página -->
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background-color: #f4f4f4;
+        display: flex;
+        /* Flexbox para centrar contenido */
+        justify-content: center;
+        /* Centrar horizontalmente */
+        align-items: center;
+        /* Centrar verticalmente */
+        min-height: 100vh;
+        /* Asegura que ocupe toda la altura de la ventana */
+      }
+
+      .container {
+        background-color: #fff;
+        padding: 40px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        max-width: 400px;
+        /* Ancho máximo */
+        width: 100%;
+        /* Ancho adaptable */
+        box-sizing: border-box;
+        /* Incluye padding en el ancho total */
+      }
+
+      h2 {
+        text-align: center;
+      }
+
+      label {
+        display: block;
+        margin-top: 10px;
+      }
+
+      input[type="text"],
+      input[type="email"],
+      button {
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        width: 100%;
+        /* Ancho completo */
+      }
+
+      button {
+        background-color: #28a745;
+        color: white;
+        border: none;
+        cursor: pointer;
+        margin-top: 15px;
+        /* Separar botón del resto */
+      }
+
+      button:hover {
+        background-color: #218838;
+      }
+
+      .message {
+        margin-top: 10px;
+        padding: 10px;
+        display: none;
+      }
+
+      .success {
+        background-color: #d4edda;
+        color: #155724;
+      }
+
+      .error {
+        background-color: #f8d7da;
+        color: #721c24;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h2>Agregar Contacto</h2>
+      <form id="contactForm">
+        <label for="username">Nombres</label
+        ><!-- Etiqueta para el campo de texto de nombre -->
+        <input
+          type="text"
+          id="username"
+          name="username"
+          placeholder="Ingresa Nombres"
+          required
+        /><!-- Campo de texto de nombre -->
+
+        <label for="surnames">Apellidos</label
+        ><!-- Etiqueta para el campo de texto de nombre el for es para asociar la etiqueta con el campo de texto por el id-->
+        <input
+          type="text"
+          id="surnames"
+          name="surnames"
+          placeholder="Ingresa Apellidos"
+          required
+        /><!-- Campo de texto de nombre -->
+
+        <label for="email">Correo</label
+        ><!-- Etiqueta para el campo de texto de correo el for es para asociar la etiqueta con el campo de texto por el id-->
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="Ingresa Email"
+          required
+        /><!-- Campo de texto de correo -->
+
+        <label for="group">Grupo</label
+        ><!-- Etiqueta para el campo de texto de grupo el for es para asociar la etiqueta con el campo de texto por el id-->
+        <input
+          type="text"
+          id="group"
+          name="group"
+          placeholder="Grupo (opcional)"
+          required
+        /><!-- Campo de texto de grupo -->
+
+        <button type="submit">Agregar Contacto</button
+        ><!-- Botón para enviar formulario -->
+      </form>
+
+      <div id="message" class="message"></div>
+      <!-- Mensaje de éxito o error -->
+    </div>
+
+    <script>
+      const web = "http://localhost:3000/app";
+      console.log("Formulario de Contacto Activado"); // Mostrar mensaje en consola del navegador web
+      document
+        .getElementById("contactForm") // Obtener el formulario por su id
+        .addEventListener("submit", async function (event) {
+          // Agregar evento de envío de formulario en su evento submit
+          event.preventDefault(); // Evitar que se envíe el formulario por defecto
+
+          const names = document.getElementById("username").value; // Obtener el valor del campo de texto de nombre del formulario
+          const surnames = document.getElementById("surnames").value; //Obtener el valor del campo de texto de apellidos del formulario
+          const email = document.getElementById("email").value; // Obtener el valor del campo de texto de correo del formulario
+          const group = document.getElementById("group").value; // Obtener el valor del campo de texto de grupo del formulario
+
+          const data = {
+            // Crear objeto con los datos del formulario para enviar al servidor web de express
+            names: names, // Nombre de la propiedad que recibe el servidor web de express
+            surnames: surnames, // Nombre de la propiedad que recibe el servidor web de express
+            email: email, // Nombre de la propiedad que recibe el servidor web de express
+            group: group, // Nombre de la propiedad que recibe el servidor web de express
+          };
+          console.log(data); // Mostrar en consola del navegador web los datos que se enviarán al servidor web de express
+
+          try {
+            // La variable response almacena la respuesta del servidor web de express
+            const endpoint = `${web}/${email}`;
+            console.log(endpoint);
+            const response = await fetch(endpoint, {
+              // URL del servidor web de express
+              method: "POST", // Para Enviar datos a express se usa el método POST
+              headers: { "Content-Type": "application/json" }, // Tipo de contenido JSON
+              body: JSON.stringify(data), // Convertir datos a JSON que es lo que recibe para enviar al servidor web de express
+            });
+            //La variable result guarda la respuesta JSON del servidor para manejarla y mostrar mensaje de éxito o error que esta en result.mensaje
+            const result = await response.json(); //se espera la respuesta del servidor web de express
+
+            const messageElement = document.getElementById("message"); // Elemento HTML para mostrar mensaje
+            if (response.ok) {
+              // En caso de éxito del servidor web de express mostrar mensaje de éxito
+              messageElement.className = "message success"; // Agregar clase de css para dar estilo al mensaje de éxito en color verde
+              messageElement.innerText = "Contacto agregado exitosamente."; // Agregar mensaje de éxito
+            } else {
+              // En caso de error del servidor web de express mostrar mensaje de error
+              messageElement.className = "message error";
+              messageElement.innerText =
+                result.mensaje || "Error al agregar el contacto.";
+            }
+
+            messageElement.style.display = "block"; // Mostrar mensaje
+          } catch (error) {
+            console.error("Error:", error); // Mostrar error en consola del navegador web
+            const messageElement = document.getElementById("message"); // crear una variable que controla mi etiqueta div de mensaje para dentro de ella agregar texto y mostrar el error
+            messageElement.className = "message error"; // agregar una clase de css para darle estilo al mensaje en este caso de error
+            messageElement.innerText = "Error en la conexión al servidor."; // agregar un mensaje de error en caso de que no se pueda conectar al servidor
+            messageElement.style.display = "block"; // Mostrar el div del mensaje de error por que esta en display none
+          }
+        });
+    </script>
+  </body>
+</html>

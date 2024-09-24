@@ -1,0 +1,45 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Iniciar Chrome (Flatpak)",
+      "type": "shell",
+      "command": "/usr/bin/flatpak",
+      "args": [
+        "run",
+        "com.google.Chrome",
+        "--args",
+        "--remote-debugging-port=9222"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": {
+        "owner": "chrome",
+        "applyTo": "allDocuments",
+        "fileLocation": "absolute",
+        "pattern": [
+          {
+            "regexp": "^(?!.*).*$", // Patrón que no coincide con nada
+            "file": 0,
+            "line": 0,
+            "message": 0
+          }
+        ]
+      },
+      "isBackground": true,
+      "options": {
+        "shell": {
+          "executable": "/bin/bash",
+          "args": ["-c"]
+        }
+      },
+      "presentation": {
+        "reveal": "always", // Siempre mostrar el panel
+        "focus": true,      // Enfocar la terminal
+        "panel": "shared"   // Compartir el panel
+      }
+    }
+  ]
+}

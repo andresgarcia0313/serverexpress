@@ -1,0 +1,27 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Edge",
+      "request": "launch",
+      "type": "msedge",
+      "file": "${workspaceFolder}/index.html"
+    },
+    {
+      "type": "chrome",
+      "request": "launch",
+      "name": "Chrome (Flatpak)",
+      "webRoot": "${workspaceFolder}",
+      "file": "${workspaceFolder}/index.html",
+      "runtimeExecutable": "/usr/bin/flatpak",
+      "runtimeArgs": [
+        "run",
+        "com.google.Chrome",
+        "--args",
+        "--remote-debugging-port=9222"
+      ],
+      "port": 9222,
+      "preLaunchTask": "Iniciar Chrome (Flatpak)"
+    }
+  ]
+}
