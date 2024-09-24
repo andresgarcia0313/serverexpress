@@ -16,16 +16,15 @@ initDB(); // Inicializa la conexión a la base de datos
 //Agregar contacto
 app.post(appPathWeb + "/:email", async (req, res) => {
   try {
-    const user = await db
-      .collection("contactos")
-      .findOne({ email: req.params.email }); //Busca si el usuario ya existe
+    const col = db.collection("contactos"); //Colección o tabla de contactos
 
+    const user = col.findOne({ email: req.params.email }); //Busca si el usuario ya existe
     if (user) {
       //Si el contacto ya existe haga lo siguiente
       res.status(400).json({ mensaje: "El contacto ya existe" });
     } else {
       //Si no existe el contacto haga lo siguiente:
-      await db.collection("contactos").insertOne({
+      await col.insertOne({
         email: req.params.email,
         names: req.body.names,
         surnames: req.body.surnames,
