@@ -4,7 +4,6 @@ const app = express(); // Crea una instancia de Express
 const connectDB = require("./database"); // Importa la función de conexión a MongoDB
 const appPathWeb = "/app"; // Ruta base para la aplicación web a futuro se debe cambiar a api y app para la web
 app.use(express.static(path.join(__dirname, "public"))); // Configura la carpeta 'public' para servir archivos estáticos
-app.use(appPathWeb, express.static(path.join(__dirname, "app"))); // Configura la carpeta 'app' para servir archivos estáticos en la ruta /app
 app.use(express.json()); // Habilita el uso de JSON que es lo que recibe el servidor desde el formulario
 
 let db; // Variable para almacenar la conexión de la base de datos
