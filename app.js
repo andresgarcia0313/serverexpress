@@ -23,7 +23,7 @@ app.post(appPathWeb + "/:email", async (req, res) => {
   try {
     const col = db.collection("contactos"); //Colección o tabla de contactos
 
-    const user = col.findOne({ email: req.params.email }); //Busca si el usuario ya existe
+    const user = await col.findOne({ email: req.params.email }); //Busca si el usuario ya existe
     if (user) {
       //Si el contacto ya existe haga lo siguiente
       res.status(400).json({ mensaje: "El contacto ya existe" });
