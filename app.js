@@ -1,7 +1,7 @@
 const express = require("express"); // Importa el módulo 'express'
 const path = require("path"); // Importa el módulo 'path' para manejar rutas
 const app = express(); // Crea una instancia de Express
-const appPathWeb = "/app";
+const appPathWeb = "/app"; // Ruta base para la aplicación web a futuro se debe cambiar a api y app para la web
 // Configura la carpeta 'public' para servir archivos estáticos
 app.use(express.static(path.join(__dirname, "public")));
 app.use(appPathWeb, express.static(path.join(__dirname, "app")));
