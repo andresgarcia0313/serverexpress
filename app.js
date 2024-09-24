@@ -1,3 +1,8 @@
+if (require.main === module) {
+  //valida si el archivo es el principal para no cargar las variables de entorno en vercel
+  require("dotenv").config(); //Carga las variables de entorno del archivo .env
+  console.log(process.env.MONGODB_URL); //Imprime en consola la variable de entorno
+}
 const express = require("express"); // Importa el módulo 'express'
 const path = require("path"); // Importa el módulo 'path' para manejar rutas
 const app = express(); // Crea una instancia de Express
@@ -34,15 +39,12 @@ app.post(appPathWeb + "/:email", async (req, res) => {
     }
   } catch (error) {
     //Mensaje de error en caso de que no se pueda agregar el contacto
-    res.status(400).json({ mensaje: "Defecto al agregar contacto:" + error }); //Mensaje de error en caso de que no se pueda agregar el contacto
+    res.status(500).json({ mensaje: "Defecto al agregar contacto:" + error }); //Mensaje de error en caso de que no se pueda agregar el contacto
   }
 });
 
-// Inicia el servidor solo si este archivo es el principal
 if (require.main === module) {
-  // Establece el puerto, priorizando la variable de entorno PORT
   const PORT = process.env.PORT || 3000;
-  // Escucha las peticiones en el puerto definido
   app.listen(PORT, () => {
     console.log(`Servidor corriendo en http://localhost:${PORT}`); // Mensaje de confirmación
   });
