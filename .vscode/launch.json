@@ -4,7 +4,9 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Iniciar Node",
+      //ejecutar con nodemon
+      "name": "Iniciar Node con nodemon",
+      "runtimeExecutable": "nodemon",
       "skipFiles": ["<node_internals>/**"],
       "program": "${workspaceFolder}/app.js"
     }
