@@ -8,9 +8,10 @@ const path = require("path"); // Importa el módulo 'path' para manejar rutas
 const app = express(); // Crea una instancia de Express
 const connectDB = require("./database"); // Importa la función de conexión a MongoDB
 const appPathWeb = "/app"; // Ruta base para la aplicación web a futuro se debe cambiar a api y app para la web
-app.use(express.static(path.join(__dirname, "public"))); // Configura la carpeta 'public' para servir archivos estáticos
+const pathPublic = path.join(__dirname, "public"); // Ruta de la carpeta public
+console.log(pathPublic); //Imprime en consola la ruta de la carpeta public
+app.use(express.static(pathPublic)); // Configura la carpeta 'public' para servir archivos estáticos
 app.use(express.json()); // Habilita el uso de JSON que es lo que recibe el servidor desde el formulario
-
 let db; // Variable para almacenar la conexión de la base de datos
 const initDB = async () => {
   // Función para inicializar la conexión a la base de datos
@@ -22,7 +23,6 @@ initDB(); // Inicializa la conexión a la base de datos
 app.post(appPathWeb + "/:email", async (req, res) => {
   try {
     const col = db.collection("contactos"); //Colección o tabla de contactos
-
     const user = await col.findOne({ email: req.params.email }); //Busca si el usuario ya existe
     if (user) {
       //Si el contacto ya existe haga lo siguiente
